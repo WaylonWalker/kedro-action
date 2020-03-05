@@ -20,6 +20,8 @@ python_version:
   should_run:
     description: runs `kedro run`
     default: false
+  should_viz:
+    description: creates a static site built on gatsby based on `kedro viz --save-pipeline pipeline.json`
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -30,6 +32,7 @@ runs:
     - ${{ inputs.should_build_docs }}
     - ${{ inputs.should_package }}
     - ${{ inputs.should_run }}
+    - ${{ inputs.should_viz}}
 branding:
   icon: 'layers'
   color: 'black'
