@@ -1,0 +1,35 @@
+name: kedro
+author: Waylon Walker
+description: Run kedro project
+inputs:
+python_version:
+    description: a Python version that is supported by pyenv
+    default: '3.7.0'
+  should_lint:
+    description: runs `kedro lint`
+    default: true
+  should_test:
+    description: runs `kedro test`
+    default: true
+  should_build_docs:
+    description: runs `kedro build-docs`
+    default: true
+  should_package:
+    description: runs `kedro package`
+    default: true
+  should_run:
+    description: runs `kedro run`
+    default: false
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.python_version }}
+    - ${{ inputs.should_lint }}
+    - ${{ inputs.should_test }}
+    - ${{ inputs.should_build_docs }}
+    - ${{ inputs.should_package }}
+    - ${{ inputs.should_run }}
+branding:
+  icon: 'layers'
+  color: 'black'
