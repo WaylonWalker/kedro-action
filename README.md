@@ -49,7 +49,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Kedro
-      uses: WaylonWalker/kedro-action@1.0.2
+      uses: WaylonWalker/kedro-action@1.0.3
       with:
         python_version: '3.7.0'
 ```
