@@ -2,7 +2,7 @@ name: kedro
 author: Waylon Walker
 description: Run kedro project
 inputs:
-python_version:
+  python_version:
     description: a Python version that is supported by pyenv
     default: '3.7.0'
   should_lint:
