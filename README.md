@@ -52,4 +52,14 @@ jobs:
       uses: WaylonWalker/kedro-action@1.0.3
       with:
         python_version: '3.7.0'
+# OPTIONAL
+# Deploy docs to gh-pages branch
+    - name: Deploy-docs
+      uses: crazy-max/ghaction-github-pages@v1.3.0
+      with:
+        target_branch: gh-pages-docs
+        build_dir: docs/build/html
+      env:
+        GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+
 ```
