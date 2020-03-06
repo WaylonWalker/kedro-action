@@ -62,12 +62,15 @@ kedro_viz(){
 	pip install kedro-viz
         kedro viz --save-file pipeline.json
 	install_nodejs
+	mkdir build_dir && cd build_dir
 	git clone https://github.com/WaylonWalker/kedro-static-viz.git
 	cp pipeline.json kedro-static-viz/src/pages/
 	cd kedro-static-viz
 	npm install
 	npm install -g gatsby-cli
 	gatsby build
+	mkdir ../../kedro-static-viz
+	mv public ../../kedro-static-viz
     fi
     }
 
