@@ -44,7 +44,7 @@ kedro_build_docs(){
 }
 
 kedro_package(){
-    if [ $INPUT_SHOULD_PACKAGE]; then
+    if [ $INPUT_SHOULD_PACKAGE ]; then
         print_step "kedro package"
         kedro package
     fi
@@ -57,7 +57,7 @@ install_nodejs(){
 }
 
 kedro_viz(){
-    if [ $INPUT_SHOULD_VIZ]; then
+    if [ $INPUT_SHOULD_VIZ ]; then
         print_step "kedro viz"
 	pip install kedro-viz
         kedro viz --save-file pipeline.json
@@ -82,3 +82,4 @@ kedro_lint
 kedro_test
 kedro_build_docs
 kedro_package
+kedro_viz
