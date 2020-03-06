@@ -1,4 +1,4 @@
-# Kedro Workflow
+# Kedro-Action
 
 A GitHub Action to `lint`, `test`, `build-docs`, `package`, and `run` your [kedro](https://github.com/quantumblacklabs/kedro) pipelines. Supports any Python version you'll give it (that is also supported by [pyenv](https://github.com/pyenv/pyenv)). 
 
