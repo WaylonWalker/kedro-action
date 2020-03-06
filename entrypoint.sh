@@ -54,6 +54,10 @@ install_nodejs(){
         print_step "install node"
 	curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
 	apt install nodejs -y
+	print_step "node version"
+	node -v
+	print_step "npm version"
+	npm -v
 }
 
 kedro_viz(){
