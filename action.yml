@@ -35,5 +35,5 @@ runs:
     - ${{ inputs.should_run }}
     - ${{ inputs.should_viz}}
 branding:
-  icon: 'layers'
+  icon: 'git-branch'
   color: 'black'
