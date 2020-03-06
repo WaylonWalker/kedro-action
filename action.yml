@@ -1,4 +1,4 @@
-name: kedro
+name: kedro-action
 author: Waylon Walker
 description: Run kedro project
 inputs:
