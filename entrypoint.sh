@@ -50,6 +50,27 @@ kedro_package(){
     fi
 }
 
+install_nodejs(){
+        print_step "install node"
+	curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+	sudo apt install nodejs
+}
+
+kedro_viz(){
+    if [ $INPUT_SHOULD_VIZ]; then
+        print_step "kedro viz"
+	pip install kedro-viz
+        kedro viz --save-file pipeline.json
+	install_nodejs
+	git clone https://github.com/WaylonWalker/kedro-static-viz.git
+	cp pipeline.json kedro-static-viz/src/pages/
+	cd kedro-static-viz
+	npm install
+	npm install -g gatsby-cli
+	gatsby build
+    fi
+    }
+
 
 install_python_version
 install_kedro
