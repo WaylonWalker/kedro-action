@@ -22,6 +22,7 @@ inputs:
     default: false
   should_viz:
     description: creates a static site built on gatsby based on `kedro viz --save-pipeline pipeline.json`
+    default: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
