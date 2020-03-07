@@ -55,7 +55,7 @@ install_nodejs(){
 	print_step "node version"
 	node -v
 	apt-get install curl -y
-	curl -sL https://deb.nodesource.com/setup_13.x | bash -
+	curl -sL https://deb.nodesource.com/setup_11.x | bash -
 	apt-get install nodejs -y
 	print_step "node version"
 	node -v
