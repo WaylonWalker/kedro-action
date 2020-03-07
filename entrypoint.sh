@@ -74,14 +74,14 @@ kedro_viz(){
 	mkdir build_dir && cd build_dir
 	git clone https://github.com/WaylonWalker/kedro-static-viz.git
         rm kedro-static-viz/src/pages/pipeline.json
-        cp pipeline.json kedro-static-viz/src/pages/pipeline.json
+        cp ../pipeline.json kedro-static-viz/src/pages/pipeline.json
 	cd kedro-static-viz
         print_step "cat pages"
         ls src/pages/
 	npm install
 	npm install -g gatsby-cli
 	gatsby build
-	mkdir ../../kedro-static-viz
+	# mkdir ../../kedro-static-viz
 	mv public ../../kedro-static-viz
     fi
     }
