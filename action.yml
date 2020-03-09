@@ -23,6 +23,12 @@ inputs:
   should_viz:
     description: creates a static site built on gatsby based on `kedro viz --save-pipeline pipeline.json`
     default: true
+  docs_branch:
+    description: branch to push docs output to
+    branch: docs
+  viz_branch:
+    description: branch to push static viz to
+    default: kedro-static-viz
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -33,7 +39,9 @@ runs:
     - ${{ inputs.should_build_docs }}
     - ${{ inputs.should_package }}
     - ${{ inputs.should_run }}
-    - ${{ inputs.should_viz}}
+    - ${{ inputs.should_viz }}
+    - ${{ inputs.docs_branch }}
+    - ${{ inputs.viz_branch }}
 branding:
-  icon: 'layers'
+  icon: 'git-branch'
   color: 'black'
