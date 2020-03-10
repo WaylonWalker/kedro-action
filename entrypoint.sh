@@ -91,6 +91,7 @@ kedro_test(){
     if [ $INPUT_SHOULD_TEST ]; then
     	mkdir ~/kedro-action/test-report/
         print_step "kedro test"
+	pip install pytest-html
         kedro test --html=~/kedro-action/test-report/index.html
     fi
 }
