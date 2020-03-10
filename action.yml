@@ -29,6 +29,9 @@ inputs:
   viz_branch:
     description: branch to push static viz to
     default: kedro-static-viz
+  verbose:
+    description: prints extra information for debugging
+    default: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -42,6 +45,7 @@ runs:
     - ${{ inputs.should_viz }}
     - ${{ inputs.docs_branch }}
     - ${{ inputs.viz_branch }}
+    - ${{ inputs.verbose }}
 branding:
   icon: 'git-branch'
   color: 'black'
