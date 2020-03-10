@@ -8,13 +8,23 @@ print_step(){
 }
 
 success(){
-    echo -e "✔ $1"
+    echo -e "✅ $1"
+}
+
+fail(){
+    echo -e "❌ $1"
 }
 
 install_python_version(){
     print_step "Install Python Version"
+    if $INPUT_VERBOSE
+    then
+    pyenv install $INPUT_PYTHON_VERSION
+    pyenv global $INPUT_PYTHON_VERSION
+    else
     pyenv install $INPUT_PYTHON_VERSION > /dev/null 2&>1
     pyenv global $INPUT_PYTHON_VERSION > /dev/null 2&>1
+    fi
 }
 
 
@@ -22,11 +32,11 @@ install_kedro(){
     print_step "Install kedro library"
     if $INPUT_VERBOSE
     then
-    python -m pip install --upgrade pip
-    pip install kedro
-    else
     python -m pip install --upgrade pip --quiet
     pip install kedro --quiet
+    else
+    python -m pip install --upgrade pip
+    pip install kedro
     fi
     
 }
@@ -44,14 +54,24 @@ install_project(){
 kedro_lint(){
     if [ $INPUT_SHOULD_LINT ]; then
         print_step "kedro lint"
-        kedro lint
+	if $INPUT_VERBOSE
+        then
+        kedro lint && success Linting Passed || fail Linting Failed
+	else
+	kedro lint > /dev/null 2&>1 && success Linting Passed || fail Linting Failed
+	fi
     fi
 }
 
 kedro_test(){
     if [ $INPUT_SHOULD_TEST ]; then
         print_step "kedro test"
-        kedro test
+	if $INPUT_VERBOSE
+        then
+        kedro test && success Test Passed || fail Test Failed
+	else
+	kedro test > /dev/null 2&>1  && success Test Passed || fail Test Failed
+	fi
     fi
 }
 
@@ -107,6 +127,14 @@ kedro_viz(){
     fi
     }
 
+echo "\n\n\n STARTING \n\n\n"
+
+echo "INPUT_SHOULD_LINT: $INPUT_SHOULD_LINT"
+echo "INPUT_SHOULD_TEST: $INPUT_SHOULD_TEST"
+echo "INPUT_SHOULD_BUILD_DOCS: $INPUT_SHOULD_BUILD_DOCS"
+echo "INPUT_SHOULD_PACKAGE: $INPUT_SHOULD_PACKAGE"
+echo "INPUT_SHOULD_VIZ: $INPUT_SHOULD_VIZ"
+echo "INPUT_VERBOSE: $INPUT_VERBOSE"
 
 install_python_version
 install_kedro
