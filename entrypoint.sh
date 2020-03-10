@@ -36,8 +36,6 @@ push_to_branch() {
         git checkout --orphan $target_branch
         fi
         
-        echo "<h1>hello there.</h1><p>How are you?</p>" > index.html
-        
         DIRTY=$(git status --short | wc -l)
         
         if $keep_history &&  [ $REMOTE_BRANCH_EXISTS -ne 0 ] && [ $DIRTY = 0 ]
@@ -160,67 +158,70 @@ echo "INPUT_VERBOSE: $INPUT_VERBOSE"
 fi
 
  mkdir ~/kedro-action # files to be hosted will go here.
+ status=0
  
 if $INPUT_VERBOSE
 	then
-	install_python_version && success successfully installed python || fail failed to install python
+	install_python_version && success successfully installed python || fail failed to install python && status=1
 	else
-	install_python_version > /dev/null 2>&1 || fail failed to install python
+	install_python_version > /dev/null 2>&1 || fail failed to install python && status=1
 fi
 
 if $INPUT_VERBOSE
 	then
-	install_kedro $INPUT_DEPLOY_BRANCH $ && success successfully installed kedro || fail failed to install kedro
+	install_kedro $INPUT_DEPLOY_BRANCH $ && success successfully installed kedro || fail failed to install kedro && status=1
 	else
-	install_kedro > /dev/null 2>&1 || fail failed to install kedro
+	install_kedro > /dev/null 2>&1 || fail failed to install kedro && status=1
 fi
 
 if $INPUT_VERBOSE
 	then
-	install_project  && success successfully installed project || fail failed to install project
+	install_project  && success successfully installed project || fail failed to install project && status=1
 	else
-	install_project > /dev/null 2>&1 || fail failed to install project
+	install_project > /dev/null 2>&1 || fail failed to install project && status=1
 fi
 
 if $INPUT_VERBOSE
 	then
-	kedro lint && success successfully linted || fail failed to lint
+	kedro lint && success successfully linted || fail failed to lint && status=1
 	else
-	kedro_lint > /dev/null 2>&1 && success successfully linted || fail failed to lint
+	kedro_lint > /dev/null 2>&1 && success successfully linted || fail failed to lint && status=1
 	
 fi
 
 if $INPUT_VERBOSE
 	then
-	kedro_test && success successfully ran tests || fail failed to run tests 
+	kedro_test && success successfully ran tests || fail failed to run tests && status=1
 	else
-	kedro_test > /dev/null 2>&1 && success successfully ran tests || fail failed to run tests 
+	kedro_test > /dev/null 2>&1 && success successfully ran tests || fail failed to run tests && status=1
 fi
 
 if $INPUT_VERBOSE
 	then
-	kedro_build_docs && success successfully built docs || fail failed to build docs
+	kedro_build_docs && success successfully built docs || fail failed to build docs && status=1
 	else
-	kedro_build_docs > /dev/null 2>&1 && success successfully built docs || fail failed to build docs
+	kedro_build_docs > /dev/null 2>&1 && success successfully built docs || fail failed to build docs && status=1
 fi
 
 if $INPUT_VERBOSE
 	then
-	kedro_package && success successfully packaged || fail failed to package
+	kedro_package && success successfully packaged || fail failed to package && status=1
 	else
-	kedro_package > /dev/null 2>&1 && success successfully packaged || fail failed to package
+	kedro_package > /dev/null 2>&1 && success successfully packaged || fail failed to package && status=1
 fi
 
 if $INPUT_VERBOSE
 	then
-	kedro_viz && success successfully built visualization || fail failed to build visualization
+	kedro_viz && success successfully built visualization || fail failed to build visualization && status=1
 	else
-	kedro_viz > /dev/null 2>&1 && success successfully built visualization || fail failed to build visualization
+	kedro_viz > /dev/null 2>&1 && success successfully built visualization || fail failed to build visualization && status=1
 fi
 
 if $INPUT_VERBOSE
 	then
-	push_to_branch $INPUT_DEPLOY_BRANCH kedro-action && success successfully deployed to $INPUT_DEPLOY_BRANCH || fail failed to deploy to $INPUT_DEPLOY_BRANCH
+	push_to_branch $INPUT_DEPLOY_BRANCH kedro-action && success successfully deployed to $INPUT_DEPLOY_BRANCH || fail failed to deploy to $INPUT_DEPLOY_BRANCH && status=1
 	else
-	push_to_branch $INPUT_DEPLOY_BRANCH kedro-action > /dev/null 2>&1 && success successfully deployed to $INPUT_DEPLOY_BRANCH || fail failed to deploy to $INPUT_DEPLOY_BRANCH
+	push_to_branch $INPUT_DEPLOY_BRANCH kedro-action > /dev/null 2>&1 && success successfully deployed to $INPUT_DEPLOY_BRANCH || fail failed to deploy to $INPUT_DEPLOY_BRANCH && status=1
 fi
+
+exit $status
