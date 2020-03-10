@@ -133,7 +133,30 @@ if $INPUT_VERBOSE
 	
 fi
 
-kedro_test
-kedro_build_docs
-kedro_package
-kedro_viz
+if $INPUT_VERBOSE
+	then
+	kedro_test && success successfully ran tests || fail failed to run tests 
+	else
+	kedro_test > /dev/null 2>&1 && success successfully ran tests || fail failed to run tests 
+fi
+
+if $INPUT_VERBOSE
+	then
+	kedro_build_docs && success successfully built docs || fail failed to build docs
+	else
+	kedro_build_docs > /dev/null 2>&1 && success successfully built docs || fail failed to build docs
+fi
+
+if $INPUT_VERBOSE
+	then
+	kedro_package && success successfully packaged || fail failed to package
+	else
+	kedro_package > /dev/null 2>&1 && success successfully packaged || fail failed to package
+fi
+
+if $INPUT_VERBOSE
+	then
+	kedro_viz && success successfully built visualization || fail failed to build visualization
+	else
+	kedro_viz > /dev/null 2>&1 && success successfully built visualization || fail failed to build visualization
+fi
