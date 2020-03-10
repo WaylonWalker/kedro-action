@@ -24,6 +24,7 @@ push_to_branch() {
         COMMITER_EMAIL="${GITHUB_ACTOR}-@users.noreply.github.com"
         REMOTE_BRANCH_EXISTS=$(git ls-remote --heads ${REMOTE} ${target_branch} | wc -l)        
         
+        mkdir /tmp/cloned
         cd /tmp/cloned
         
         if $keep_history && [ $REMOTE_BRANCH_EXISTS -ne 0 ]
