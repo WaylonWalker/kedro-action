@@ -2,7 +2,7 @@ FROM python:3
 
 LABEL "com.github.actions.name"="Kedro"
 LABEL "com.github.actions.description"="A Github Action to run kedro commands"
-LABEL "com.github.actions.icon"="layers"
+LABEL "com.github.actions.icon"="git-branch"
 LABEL "com.github.actions.color"="black"
 
 LABEL "repository"="http://github.com/WaylonWalker/kedro-action"
