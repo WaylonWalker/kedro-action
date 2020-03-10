@@ -1,7 +1,7 @@
 #!/bin/bash
 
 print_step(){
-    if $verbose
+    if $INPUT_VERBOSE
     then
     echo -e "\n\n\n-----$1-----\n"
     fi
@@ -20,7 +20,7 @@ install_python_version(){
 
 install_kedro(){
     print_step "Install kedro library"
-    if $verbose
+    if $INPUT_VERBOSE
     then
     python -m pip install --upgrade pip
     pip install kedro
@@ -33,7 +33,7 @@ install_kedro(){
 
 install_project(){
     print_step "Install kedro project"
-    if $verbose
+    if $INPUT_VERBOSE
     then
     kedro install
     else
@@ -72,7 +72,7 @@ kedro_package(){
 install_nodejs(){
         print_step "install node"
 	print_step "node version"
-	if $verbose
+	if $INPUT_VERBOSE
 	then
 	apt-get install curl -y
 	curl -sL https://deb.nodesource.com/setup_11.x | bash -
