@@ -23,6 +23,12 @@ inputs:
   should_viz:
     description: creates a static site built on gatsby based on `kedro viz --save-pipeline pipeline.json`
     default: true
+  deploy_branch:
+    description: branch to deploy static site to
+    default: kedro-action
+  github_pat:
+    description: github personal access token for help see: https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
+    default: null
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -34,6 +40,8 @@ runs:
     - ${{ inputs.should_package }}
     - ${{ inputs.should_run }}
     - ${{ inputs.should_viz}}
+    - ${{ inputs.deploy_branch}}
+    - ${{ inputs.GITHUB_PAT}}
 branding:
   icon: 'git-branch'
   color: 'black'
