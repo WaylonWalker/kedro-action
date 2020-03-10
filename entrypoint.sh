@@ -1,25 +1,44 @@
 #!/bin/bash
 
 print_step(){
+    if $verbose
+    then
     echo -e "\n\n\n-----$1-----\n"
+    fi
+}
+
+success(){
+    echo -e "✔ $1"
 }
 
 install_python_version(){
     print_step "Install Python Version"
-	pyenv install $INPUT_PYTHON_VERSION
-	pyenv global $INPUT_PYTHON_VERSION
+    pyenv install $INPUT_PYTHON_VERSION > /dev/null 2&>1
+    pyenv global $INPUT_PYTHON_VERSION > /dev/null 2&>1
 }
 
 
 install_kedro(){
     print_step "Install kedro library"
+    if $verbose
+    then
     python -m pip install --upgrade pip
     pip install kedro
+    else
+    python -m pip install --upgrade pip --quiet
+    pip install kedro --quiet
+    fi
+    
 }
 
 install_project(){
     print_step "Install kedro project"
+    if $verbose
+    then
     kedro install
+    else
+    kedro install > /dev/null 2&>1
+    fi
 }
 
 kedro_lint(){
@@ -53,14 +72,16 @@ kedro_package(){
 install_nodejs(){
         print_step "install node"
 	print_step "node version"
-	node -v
+	if $verbose
+	then
 	apt-get install curl -y
 	curl -sL https://deb.nodesource.com/setup_11.x | bash -
 	apt-get install nodejs -y
-	print_step "node version"
-	node -v
-	print_step "npm version"
-	npm -v
+	else
+	apt-get install curl -y  > /dev/null 2&>1
+	curl -sL https://deb.nodesource.com/setup_11.x | bash - > /dev/null 2&>1
+	apt-get install nodejs -y  > /dev/null 2&>1
+	fi
 }
 
 kedro_viz(){
@@ -72,15 +93,15 @@ kedro_viz(){
         cat pipeline.json
 	install_nodejs
 	mkdir build_dir && cd build_dir
-	git clone https://github.com/WaylonWalker/kedro-static-viz.git
+	git clone https://github.com/WaylonWalker/kedro-static-viz.git --quiet
         rm kedro-static-viz/src/pages/pipeline.json
         cp ../pipeline.json kedro-static-viz/src/pages/pipeline.json
 	cd kedro-static-viz
         print_step "cat pages"
         ls src/pages/
-	npm install
-	npm install -g gatsby-cli
-	gatsby build
+	npm install --silent
+	npm install -g gatsby-cli --silent
+	gatsby build > /dev/null 2&>1
 	# mkdir ../../kedro-static-viz
 	mv public ../../kedro-static-viz
     fi
@@ -90,6 +111,7 @@ kedro_viz(){
 install_python_version
 install_kedro
 install_project
+success setup python
 kedro_lint
 kedro_test
 kedro_build_docs
