@@ -27,7 +27,7 @@ inputs:
     description: branch to deploy static site to
     default: kedro-action
   github_pat:
-    description: github personal access token for help see: https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
+    description: "github personal access token for help see: https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line"
     default: null
   verbose:
     description: prints extra information for debugging
