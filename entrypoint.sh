@@ -104,13 +104,36 @@ echo "INPUT_SHOULD_VIZ: $INPUT_SHOULD_VIZ"
 echo "INPUT_VERBOSE: $INPUT_VERBOSE"
 fi
 
-if $INPUT_VERBOSE; then; install_python_version && success successfully installed python || fail failed to install python; else; install_python_version > /dev/null 2>&1 || fail failed to install python; fi
-if $INPUT_VERBOSE; then; install_kedro && success successfully installed kedro || fail failed to install kedro; else; install_kedro > /dev/null 2>&1 || fail failed to install kedro; fi
+if $INPUT_VERBOSE
+	then
+	install_python_version && success successfully installed python || fail failed to install python
+	else
+	install_python_version > /dev/null 2>&1 || fail failed to install python
+fi
 
-if $INPUT_VERBOSE; then; install_project && success successfully installed project || fail failed to install project; else; install_project > /dev/null 2>&1 || fail failed to install project; fi
+if $INPUT_VERBOSE
+	then
+	install_kedro && success successfully installed kedro || fail failed to install kedro
+	else
+	install_kedro > /dev/null 2>&1 || fail failed to install kedro
+fi
 
-if $INPUT_VERBOSE; then; kedro_lint && success successfully linted || fail failed to lint else kedro_lint > /dev/null 2>&1 || fail failed to lint;  fi &&
-if $INPUT_VERBOSE; then; kedro_test
-if $INPUT_VERBOSE; then; kedro_build_docs
-if $INPUT_VERBOSE; then; kedro_package
-if $INPUT_VERBOSE; then; kedro_viz
+if $INPUT_VERBOSE
+	then
+	install_project > /dev/null 2>&1 || fail failed to install project
+	else
+	install_project && success successfully installed project || fail failed to install project
+fi
+
+if $INPUT_VERBOSE
+	then
+	kedro lint && success successfully linted || fail failed to lint
+	else
+	kedro_lint > /dev/null 2>&1 && success successfully linted || fail failed to lint
+	
+fi
+
+kedro_test
+kedro_build_docs
+kedro_package
+kedro_viz
