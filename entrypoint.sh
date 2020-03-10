@@ -37,6 +37,7 @@ push_to_branch() {
         git checkout --orphan $target_branch
         fi
 	
+        rm -rf ./*
 	cp -r $deploy_directory .
         
         DIRTY=$(git status --short | wc -l)
