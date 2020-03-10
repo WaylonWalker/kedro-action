@@ -8,70 +8,42 @@ print_step(){
 }
 
 success(){
-    echo -e "✅ $1"
+    echo -e "✅ $@"
 }
 
 fail(){
-    echo -e "❌ $1"
+    echo -e "❌ $@"
 }
 
 install_python_version(){
     print_step "Install Python Version"
-    if $INPUT_VERBOSE
-    then
     pyenv install $INPUT_PYTHON_VERSION
     pyenv global $INPUT_PYTHON_VERSION
-    else
-    pyenv install $INPUT_PYTHON_VERSION > /dev/null 2&>1
-    pyenv global $INPUT_PYTHON_VERSION > /dev/null 2&>1
-    fi
 }
 
 
 install_kedro(){
     print_step "Install kedro library"
-    if $INPUT_VERBOSE
-    then
-    python -m pip install --upgrade pip --quiet
-    pip install kedro --quiet
-    else
     python -m pip install --upgrade pip
-    pip install kedro
-    fi
-    
+    pip install kedro  
 }
 
 install_project(){
     print_step "Install kedro project"
-    if $INPUT_VERBOSE
-    then
     kedro install
-    else
-    kedro install > /dev/null 2&>1
-    fi
 }
 
 kedro_lint(){
     if [ $INPUT_SHOULD_LINT ]; then
         print_step "kedro lint"
-	if $INPUT_VERBOSE
-        then
-        kedro lint && success Linting Passed || fail Linting Failed
-	else
-	kedro lint > /dev/null 2&>1 && success Linting Passed || fail Linting Failed
-	fi
+        kedro lint
     fi
 }
 
 kedro_test(){
     if [ $INPUT_SHOULD_TEST ]; then
         print_step "kedro test"
-	if $INPUT_VERBOSE
-        then
-        kedro test && success Test Passed || fail Test Failed
-	else
-	kedro test > /dev/null 2&>1  && success Test Passed || fail Test Failed
-	fi
+        kedro test
     fi
 }
 
@@ -92,16 +64,9 @@ kedro_package(){
 install_nodejs(){
         print_step "install node"
 	print_step "node version"
-	if $INPUT_VERBOSE
-	then
 	apt-get install curl -y
 	curl -sL https://deb.nodesource.com/setup_11.x | bash -
 	apt-get install nodejs -y
-	else
-	apt-get install curl -y  > /dev/null 2&>1
-	curl -sL https://deb.nodesource.com/setup_11.x | bash - > /dev/null 2&>1
-	apt-get install nodejs -y  > /dev/null 2&>1
-	fi
 }
 
 kedro_viz(){
@@ -127,6 +92,8 @@ kedro_viz(){
     fi
     }
 
+if $INPUT_VERBOSE
+then
 echo "\n\n\n STARTING \n\n\n"
 
 echo "INPUT_SHOULD_LINT: $INPUT_SHOULD_LINT"
@@ -135,13 +102,15 @@ echo "INPUT_SHOULD_BUILD_DOCS: $INPUT_SHOULD_BUILD_DOCS"
 echo "INPUT_SHOULD_PACKAGE: $INPUT_SHOULD_PACKAGE"
 echo "INPUT_SHOULD_VIZ: $INPUT_SHOULD_VIZ"
 echo "INPUT_VERBOSE: $INPUT_VERBOSE"
+fi
 
-install_python_version
-install_kedro
-install_project
-success setup python
-kedro_lint
-kedro_test
-kedro_build_docs
-kedro_package
-kedro_viz
+if $INPUT_VERBOSE; then; install_python_version && success successfully installed python || fail failed to install python; else; install_python_version > /dev/null 2>&1 || fail failed to install python; fi
+if $INPUT_VERBOSE; then; install_kedro && success successfully installed kedro || fail failed to install kedro; else; install_kedro > /dev/null 2>&1 || fail failed to install kedro; fi
+
+if $INPUT_VERBOSE; then; install_project && success successfully installed project || fail failed to install project; else; install_project > /dev/null 2>&1 || fail failed to install project; fi
+
+if $INPUT_VERBOSE; then; kedro_lint && success successfully linted || fail failed to lint else kedro_lint > /dev/null 2>&1 || fail failed to lint;  fi &&
+if $INPUT_VERBOSE; then; kedro_test
+if $INPUT_VERBOSE; then; kedro_build_docs
+if $INPUT_VERBOSE; then; kedro_package
+if $INPUT_VERBOSE; then; kedro_viz
