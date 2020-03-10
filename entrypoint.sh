@@ -24,7 +24,7 @@ push_to_branch() {
         COMMITER_EMAIL="${GITHUB_ACTOR}-@users.noreply.github.com"
         REMOTE_BRANCH_EXISTS=$(git ls-remote --heads ${REMOTE} ${target_branch} | wc -l)        
         
-        cd $deploy_directory
+        cd /tmp/cloned
         
         if $keep_history && [ $REMOTE_BRANCH_EXISTS -ne 0 ]
         then
@@ -35,6 +35,8 @@ push_to_branch() {
         git init .
         git checkout --orphan $target_branch
         fi
+	
+	cp $deploy_directory .
         
         DIRTY=$(git status --short | wc -l)
         
@@ -219,9 +221,9 @@ fi
 
 if $INPUT_VERBOSE
 	then
-	push_to_branch $INPUT_DEPLOY_BRANCH kedro-action && success successfully deployed to $INPUT_DEPLOY_BRANCH || fail failed to deploy to $INPUT_DEPLOY_BRANCH && status=1
+	push_to_branch $INPUT_DEPLOY_BRANCH ~/kedro-action && success successfully deployed to $INPUT_DEPLOY_BRANCH || fail failed to deploy to $INPUT_DEPLOY_BRANCH && status=1
 	else
-	push_to_branch $INPUT_DEPLOY_BRANCH kedro-action > /dev/null 2>&1 && success successfully deployed to $INPUT_DEPLOY_BRANCH || fail failed to deploy to $INPUT_DEPLOY_BRANCH && status=1
+	push_to_branch $INPUT_DEPLOY_BRANCH ~/kedro-action > /dev/null 2>&1 && success successfully deployed to $INPUT_DEPLOY_BRANCH || fail failed to deploy to $INPUT_DEPLOY_BRANCH && status=1
 fi
 
 exit $status
