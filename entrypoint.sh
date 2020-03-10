@@ -120,9 +120,9 @@ fi
 
 if $INPUT_VERBOSE
 	then
-	install_project > /dev/null 2>&1 || fail failed to install project
+	install_project  && success successfully installed project || fail failed to install project
 	else
-	install_project && success successfully installed project || fail failed to install project
+	install_project > /dev/null 2>&1 || fail failed to install project
 fi
 
 if $INPUT_VERBOSE
