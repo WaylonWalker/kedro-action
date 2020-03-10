@@ -141,20 +141,6 @@ kedro_viz(){
     fi
     }
 
-if $INPUT_SHOULD_TEST || $INPUT_SHOULD_BUILD_DOCS || $INPUT_SHOULD_VIZ
-
- cd ~/kedro-action
- then
- if $INPUT_SHOULD_TEST
- then
- fi
- if $INPUT_SHOULD_BUILD_DOCS
- then
- fi
- if $INPUT_SHOULD_VIZ
- then
- fi
-fi
 
 ##############################
 ############ MAIN ############
@@ -172,7 +158,7 @@ echo "INPUT_SHOULD_VIZ: $INPUT_SHOULD_VIZ"
 echo "INPUT_VERBOSE: $INPUT_VERBOSE"
 fi
 
- mkdir ~/kedro-action
+ mkdir ~/kedro-action # files to be hosted will go here.
  
 if $INPUT_VERBOSE
 	then
