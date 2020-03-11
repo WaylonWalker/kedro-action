@@ -30,6 +30,8 @@ push_to_branch() {
         if $keep_history && [ $REMOTE_BRANCH_EXISTS -ne 0 ]
         then
         git clone --quiet --branch ${target_branch} --depth 1 ${REMOTE} .
+	# Remove everything except .git
+	ls -a | xargs -i echo {} | grep -vw "." | grep -vw ".git" | xargs rm -rf {}
         else
         echo remote does not exist
         echo initialize repo
@@ -228,4 +230,7 @@ if $INPUT_VERBOSE
 	push_to_branch $INPUT_DEPLOY_BRANCH ~/kedro-action > /dev/null 2>&1 && success successfully deployed to $INPUT_DEPLOY_BRANCH || fail failed to deploy to $INPUT_DEPLOY_BRANCH && status=1
 fi
 
-exit $status
+if [ $status = 0 ]
+    then
+    exit $status
+fi
