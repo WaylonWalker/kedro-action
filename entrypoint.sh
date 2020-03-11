@@ -166,42 +166,55 @@ fi
  mkdir ~/kedro-action # files to be hosted will go here.
  status=0
  
+##### INSTALL PYTHON #####
 if $INPUT_VERBOSE
 	then
-	install_python_version && success successfully installed python || fail failed to install python && status=1
+	install_python_version && success successfully installed python || fail failed to install python && status=1 && exit 1
 	else
-	install_python_version > /dev/null 2>&1 || fail failed to install python && status=1
+	install_python_version > /dev/null 2>&1 || fail failed to install python && status=1 && exit 1
 fi
 
+##### INSTALL KEDRO #####
 if $INPUT_VERBOSE
 	then
-	install_kedro $INPUT_DEPLOY_BRANCH $ && success successfully installed kedro || fail failed to install kedro && status=1
+	install_kedro $INPUT_DEPLOY_BRANCH $ && success successfully installed kedro || fail failed to install kedro && status=1 && exit 1
 	else
-	install_kedro > /dev/null 2>&1 || fail failed to install kedro && status=1
+	install_kedro > /dev/null 2>&1 || fail failed to install kedro && status=1 && exit 1
 fi
 
+##### INSTALL PROJECT #####
 if $INPUT_VERBOSE
 	then
-	install_project  && success successfully installed project || fail failed to install project && status=1
+	install_project  && success successfully installed project || fail failed to install project && status=1 && exit 1
 	else
-	install_project > /dev/null 2>&1 || fail failed to install project && status=1
+	install_project > /dev/null 2>&1 || fail failed to install project && status=1 && exit 1
 fi
 
+##### LINT PROJECT #####
 if $INPUT_VERBOSE
 	then
-	kedro lint && success successfully linted || fail failed to lint && status=1
+	kedro lint && success successfully linted || fail failed to lint && status=1 && exit 1
 	else
-	kedro_lint > /dev/null 2>&1 && success successfully linted || fail failed to lint && status=1
-	
+	kedro_lint > /dev/null 2>&1 && success successfully linted || fail failed to lint && status=1 && exit 1
 fi
 
+##### TEST PROJECT #####
 if $INPUT_VERBOSE
 	then
-	kedro_test && success successfully ran tests || fail failed to run tests && status=1
+	kedro_test && success successfully ran tests || fail failed to run tests && status=1 && exit 1
 	else
-	kedro_test > /dev/null 2>&1 && success successfully ran tests || fail failed to run tests && status=1
+	kedro_test > /dev/null 2>&1 && success successfully ran tests || fail failed to run tests && status=1 && exit 1
 fi
 
+##### RUN PROJECT #####
+if $INPUT_VERBOSE
+	then
+	kedro_run && success successfully ran pipeline || fail failed to run pipeline && status=1
+	else
+	kedro_run > /dev/null 2>&1 && success successfully ran pipeline || fail failed to run pipeline && status=1
+fi
+
+##### BUILD DOCS #####
 if $INPUT_VERBOSE
 	then
 	kedro_build_docs && success successfully built docs || fail failed to build docs && status=1
@@ -209,6 +222,7 @@ if $INPUT_VERBOSE
 	kedro_build_docs > /dev/null 2>&1 && success successfully built docs || fail failed to build docs && status=1
 fi
 
+##### PACKAGE PROJECT #####
 if $INPUT_VERBOSE
 	then
 	kedro_package && success successfully packaged || fail failed to package && status=1
@@ -216,6 +230,7 @@ if $INPUT_VERBOSE
 	kedro_package > /dev/null 2>&1 && success successfully packaged || fail failed to package && status=1
 fi
 
+##### BUILD STATIC VIZ #####
 if $INPUT_VERBOSE
 	then
 	kedro_viz && success successfully built visualization || fail failed to build visualization && status=1
@@ -223,6 +238,7 @@ if $INPUT_VERBOSE
 	kedro_viz > /dev/null 2>&1 && success successfully built visualization || fail failed to build visualization && status=1
 fi
 
+##### DEPLOY BRANCH #####
 if $INPUT_VERBOSE
 	then
 	push_to_branch $INPUT_DEPLOY_BRANCH ~/kedro-action && success successfully deployed to $INPUT_DEPLOY_BRANCH || fail failed to deploy to $INPUT_DEPLOY_BRANCH && status=1
@@ -230,6 +246,9 @@ if $INPUT_VERBOSE
 	push_to_branch $INPUT_DEPLOY_BRANCH ~/kedro-action > /dev/null 2>&1 && success successfully deployed to $INPUT_DEPLOY_BRANCH || fail failed to deploy to $INPUT_DEPLOY_BRANCH && status=1
 fi
 
+##### EXIT #####
+# If any non critical failures occurred exit with status 1
+# Creates Red check in github ui
 if [ $status = 0 ]
     then
     exit $status
