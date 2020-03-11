@@ -2,7 +2,26 @@
 
 A GitHub Action to `lint`, `test`, `build-docs`, `package`, and `run` your [kedro](https://github.com/quantumblacklabs/kedro) pipelines. Supports any Python version you'll give it (that is also supported by [pyenv](https://github.com/pyenv/pyenv)). 
 
-Inspired by [mariamrf/py-package-publish-action](https://github.com/mariamrf/py-package-publish-action).
+Inspired by [mariamrf/py-package-publish-action](https://github.com/mariamrf/py-package-publish-action) and [crazy-max/ghaction-github-pages](https://github.com/crazy-max/ghaction-github-pages).
+
+# Example
+
+check out [WaylonWalker/default-kedro157](https://github.com/WaylonWalker/default-kedro157/) for a working example of the action.
+
+# Releases
+
+## Version 1.0.3
+
+Version 1 has been released.  It is very simple and just runs all of the kedro cli commands to install, test, lint, build-docs, package, and run your project.  If you want to keep any of the information you will need to create an artifact manually, or for docs push them to a gh-pages directory
+
+## Version 2 (develop branch)
+
+* suppress command output
+* run same kedro commands
+* create static pipeline visualization
+* create html testing report
+* automatically deploy web artifacts to kedro-action branch (viz, test_report, docs)
+
 
 # Use
 
