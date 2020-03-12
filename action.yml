@@ -4,7 +4,7 @@ description: Run kedro project
 inputs:
   python_version:
     description: a Python version that is supported by pyenv
-    default: '3.7.0'
+    default: '3.7.6'
   should_lint:
     description: runs `kedro lint`
     default: true
