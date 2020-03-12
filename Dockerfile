@@ -20,6 +20,7 @@ RUN pyenv install 3.7.6
 RUN pyenv global 3.7.6
 RUN python -m pip install --upgrade pip
 RUN pip install kedro
+RUN pip install kedro-viz
 
 ### INSTALL NODEJS ###
 RUN apt-get install curl -y
