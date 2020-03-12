@@ -28,10 +28,10 @@ RUN apt-get install nodejs -y
 
 ### CLONE KEDRO-STATIC-VIZ ###
 RUN mkdir ~/build_dir && cd ~/build_dir
-RUN git clone https://github.com/WaylonWalker/kedro-static-viz.git --quiet
+RUN git clone https://github.com/WaylonWalker/kedro-static-viz.git
 RUN cd kedro-static-viz
-RUN npm install -g gatsby-cli --silent
-RUN npm install --silent
+RUN npm install -g gatsby-cli
+RUN cd kedro-static-viz && npm install
 
 
 ADD entrypoint.sh /entrypoint.sh
