@@ -171,8 +171,13 @@ echo "INPUT_SHOULD_VIZ: $INPUT_SHOULD_VIZ"
 echo "INPUT_VERBOSE: $INPUT_VERBOSE"
 
 echo -e "\n\n existing files\n\n"
-echo -e "\nhome \n\n" && ls
+echo -e "\npwd \n\n" && ls pwd
+echo -e "\nls pwd \n\n" && ls
+echo -e "\nhome \n\n" && ls ~/
+echo -e "\nroot \n\n" && ls /
 echo -e "\nkedro-static-viz \n\n" && ls kedro-static-viz
+
+
 fi
 
  mkdir ~/kedro-action # files to be hosted will go here.
