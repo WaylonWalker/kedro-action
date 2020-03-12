@@ -12,7 +12,15 @@ success(){
 }
 
 fail(){
-    echo -e "❌ $@"
+    if [[ "$*" == *"--exit"* ]]
+    then
+	message=$(echo $* | sed 's/--exit//g')
+	echo -e "❌ $message"
+	exit 1
+    else
+	echo -e "❌ $@"
+	status=1
+    fi
 }
 
 push_to_branch() {
@@ -166,84 +174,86 @@ fi
  mkdir ~/kedro-action # files to be hosted will go here.
  status=0
  
+ 
+ 
 ##### INSTALL PYTHON #####
 if $INPUT_VERBOSE
 	then
-	install_python_version && success successfully installed python || fail failed to install python && status=1 && exit 1
+	install_python_version && success successfully installed python || fail failed to install python --exit
 	else
-	install_python_version > /dev/null 2>&1 || fail failed to install python && status=1 && exit 1
+	install_python_version > /dev/null 2>&1 || fail failed to install python --exit
 fi
 
 ##### INSTALL KEDRO #####
 if $INPUT_VERBOSE
 	then
-	install_kedro $INPUT_DEPLOY_BRANCH $ && success successfully installed kedro || fail failed to install kedro && status=1 && exit 1
+	install_kedro $INPUT_DEPLOY_BRANCH $ && success successfully installed kedro || fail failed to install kedro --exit
 	else
-	install_kedro > /dev/null 2>&1 || fail failed to install kedro && status=1 && exit 1
+	install_kedro > /dev/null 2>&1 || fail failed to install kedro --exit
 fi
 
 ##### INSTALL PROJECT #####
 if $INPUT_VERBOSE
 	then
-	install_project  && success successfully installed project || fail failed to install project && status=1 && exit 1
+	install_project  && success successfully installed project || fail failed to install project --exit
 	else
-	install_project > /dev/null 2>&1 || fail failed to install project && status=1 && exit 1
+	install_project > /dev/null 2>&1 || fail failed to install project --exit
 fi
 
 ##### LINT PROJECT #####
 if $INPUT_VERBOSE
 	then
-	kedro lint && success successfully linted || fail failed to lint && status=1 && exit 1
+	kedro lint && success successfully linted || fail failed to lint --exit
 	else
-	kedro_lint > /dev/null 2>&1 && success successfully linted || fail failed to lint && status=1 && exit 1
+	kedro_lint > /dev/null 2>&1 && success successfully linted || fail failed to lint --exit
 fi
 
 ##### TEST PROJECT #####
 if $INPUT_VERBOSE
 	then
-	kedro_test && success successfully ran tests || fail failed to run tests && status=1 && exit 1
+	kedro_test && success successfully ran tests || fail failed to run tests --exit
 	else
-	kedro_test > /dev/null 2>&1 && success successfully ran tests || fail failed to run tests && status=1 && exit 1
+	kedro_test > /dev/null 2>&1 && success successfully ran tests || fail failed to run tests --exit
 fi
 
 ##### RUN PROJECT #####
 if $INPUT_VERBOSE
 	then
-	kedro_run && success successfully ran pipeline || fail failed to run pipeline && status=1
+	kedro_run && success successfully ran pipeline || fail failed to run pipeline
 	else
-	kedro_run > /dev/null 2>&1 && success successfully ran pipeline || fail failed to run pipeline && status=1
+	kedro_run > /dev/null 2>&1 && success successfully ran pipeline || fail failed to run pipeline
 fi
-
+=1
 ##### BUILD DOCS #####
 if $INPUT_VERBOSE
 	then
-	kedro_build_docs && success successfully built docs || fail failed to build docs && status=1
+	kedro_build_docs && success successfully built docs || fail failed to build docs
 	else
-	kedro_build_docs > /dev/null 2>&1 && success successfully built docs || fail failed to build docs && status=1
+	kedro_build_docs > /dev/null 2>&1 && success successfully built docs || fail failed to build docs
 fi
 
 ##### PACKAGE PROJECT #####
 if $INPUT_VERBOSE
 	then
-	kedro_package && success successfully packaged || fail failed to package && status=1
+	kedro_package && success successfully packaged || fail failed to package
 	else
-	kedro_package > /dev/null 2>&1 && success successfully packaged || fail failed to package && status=1
+	kedro_package > /dev/null 2>&1 && success successfully packaged || fail failed to package
 fi
 
 ##### BUILD STATIC VIZ #####
 if $INPUT_VERBOSE
 	then
-	kedro_viz && success successfully built visualization || fail failed to build visualization && status=1
+	kedro_viz && success successfully built visualization || fail failed to build visualization
 	else
-	kedro_viz > /dev/null 2>&1 && success successfully built visualization || fail failed to build visualization && status=1
+	kedro_viz > /dev/null 2>&1 && success successfully built visualization || fail failed to build visualization
 fi
 
 ##### DEPLOY BRANCH #####
 if $INPUT_VERBOSE
 	then
-	push_to_branch $INPUT_DEPLOY_BRANCH ~/kedro-action && success successfully deployed to $INPUT_DEPLOY_BRANCH || fail failed to deploy to $INPUT_DEPLOY_BRANCH && status=1
+	push_to_branch $INPUT_DEPLOY_BRANCH ~/kedro-action && success successfully deployed to $INPUT_DEPLOY_BRANCH || fail failed to deploy to $INPUT_DEPLOY_BRANCH
 	else
-	push_to_branch $INPUT_DEPLOY_BRANCH ~/kedro-action > /dev/null 2>&1 && success successfully deployed to $INPUT_DEPLOY_BRANCH || fail failed to deploy to $INPUT_DEPLOY_BRANCH && status=1
+	push_to_branch $INPUT_DEPLOY_BRANCH ~/kedro-action > /dev/null 2>&1 && success successfully deployed to $INPUT_DEPLOY_BRANCH || fail failed to deploy to $INPUT_DEPLOY_BRANCH
 fi
 
 ##### EXIT #####
