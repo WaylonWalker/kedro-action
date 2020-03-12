@@ -131,28 +131,23 @@ install_nodejs(){
 	apt-get install nodejs -y
 }
 
-kedro_viz(){
+kedro_viz_full(){
     if [ $INPUT_SHOULD_VIZ ]; then
         print_step "kedro viz"
 	pip install kedro-viz
         kedro viz --save-file pipeline.json
         print_step "cat pipeline"
         cat pipeline.json
-	install_nodejs
-	mkdir ~/build_dir && cd ~/build_dir
-	git clone https://github.com/WaylonWalker/kedro-static-viz.git --quiet
-        rm kedro-static-viz/src/pages/pipeline.json
-        cp ../pipeline.json kedro-static-viz/src/pages/pipeline.json
-	cd kedro-static-viz
+        cp ../pipeline.json /kedro-static-viz/src/pages/pipeline.json
+	cd /kedro-static-viz
         print_step "cat pages"
         ls src/pages/
-	npm install --silent
-	npm install -g gatsby-cli --silent
-	gatsby build > /dev/null 2&>1
-	# mkdir ../../kedro-static-viz
-	mv public ~/kedro-action/viz
+	gatsby build
+	mv /kedro-static-viz/public ~/kedro-action/viz
     fi
     }
+    
+    
 
 
 ##############################
