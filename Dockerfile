@@ -29,7 +29,7 @@ RUN apt-get install nodejs -y
 ### CLONE KEDRO-STATIC-VIZ ###
 RUN mkdir ~/build_dir && cd ~/build_dir
 RUN git clone https://github.com/WaylonWalker/kedro-static-viz.git --quiet
-RUN cd kedro-static-build
+RUN cd kedro-static-viz
 RUN npm install -g gatsby-cli --silent
 RUN npm install --silent
 
