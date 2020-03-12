@@ -227,7 +227,7 @@ if $INPUT_VERBOSE
 	else
 	kedro_run > /dev/null 2>&1 && success successfully ran pipeline || fail failed to run pipeline
 fi
-=1
+
 ##### BUILD DOCS #####
 if $INPUT_VERBOSE
 	then
