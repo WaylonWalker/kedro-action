@@ -161,7 +161,7 @@ kedro_viz(){
 
 if $INPUT_VERBOSE
 then
-echo "\n\n\n STARTING \n\n\n"
+echo -e "\n\n\n STARTING \n\n\n"
 
 echo "INPUT_SHOULD_LINT: $INPUT_SHOULD_LINT"
 echo "INPUT_SHOULD_TEST: $INPUT_SHOULD_TEST"
@@ -169,6 +169,10 @@ echo "INPUT_SHOULD_BUILD_DOCS: $INPUT_SHOULD_BUILD_DOCS"
 echo "INPUT_SHOULD_PACKAGE: $INPUT_SHOULD_PACKAGE"
 echo "INPUT_SHOULD_VIZ: $INPUT_SHOULD_VIZ"
 echo "INPUT_VERBOSE: $INPUT_VERBOSE"
+
+echo -e "\n\n existing files\n\n"
+echo -e "\nhome \n\n" && ls
+echo -e "\nkedro-static-viz \n\n" && ls kedro-static-viz
 fi
 
  mkdir ~/kedro-action # files to be hosted will go here.
