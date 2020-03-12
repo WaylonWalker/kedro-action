@@ -32,7 +32,7 @@ RUN mkdir ~/build_dir && cd ~/build_dir
 RUN git clone https://github.com/WaylonWalker/kedro-static-viz.git
 RUN cd kedro-static-viz
 RUN npm install -g gatsby-cli
-RUN cd kedro-static-viz && npm install
+RUN cd kedro-static-viz && npm install && npm audit fix
 
 
 ADD entrypoint.sh /entrypoint.sh
