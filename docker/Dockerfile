@@ -16,7 +16,7 @@ RUN apt-get install -y git
 
 RUN apt-get update && apt-get install -y \
     curl \
-    git 
+    git \
  && rm -rf /var/lib/apt/lists/*
 
 # ENV PYENV_ROOT /root/.pyenv
