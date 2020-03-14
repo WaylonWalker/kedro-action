@@ -1,0 +1,25 @@
+name: Docker Push
+
+on: push
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+
+      - name: Docker Build & Push to GitHub Package
+        uses: opspresso/action-docker@master
+        with:
+          args: --docker
+        env:
+          USERNAME: ${{ secrets.GITHUB_USERNAME }}
+          PASSWORD: ${{ secrets.GITHUB_PAT }}
+          REGISTRY: "docker.pkg.github.com"
+          DOCKERFILE: "docker/Dockerfile"
+          IMAGE_NAME: "kedro-action-base"
+          TAG_NAME: "v0.0.1"
+          LATEST: "true"
