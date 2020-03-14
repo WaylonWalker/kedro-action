@@ -11,15 +11,14 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Docker Build & Push to GitHub Package
+      - name: Docker Build & Push to Docker Hub
         uses: opspresso/action-docker@master
         with:
           args: --docker
         env:
-          USERNAME: ${{ secrets.GITHUB_USERNAME }}
-          PASSWORD: ${{ secrets.GITHUB_PAT }}
-          REGISTRY: "docker.pkg.github.com"
+          USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKERFILE: "docker/Dockerfile"
-          IMAGE_NAME: "kedro-action-base"
+          IMAGE_NAME: "waylonwalker/kedro-action-base"
           TAG_NAME: "v0.0.1"
           LATEST: "true"
