@@ -9,8 +9,10 @@ LABEL "repository"="http://github.com/WaylonWalker/kedro-action"
 LABEL "maintainer"="Waylon Walker <waylon@waylonwalker.com>"
 
 RUN apt-get update
+RUN apt-get upgrade
 RUN apt-get install -y jq
 RUN apt-get install -y curl
+RUN apt-get install -y git
 
 # ENV PYENV_ROOT /root/.pyenv
 # ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
@@ -25,7 +27,7 @@ RUN pip install kedro-viz
 
 ### INSTALL NODEJS ###
 RUN apt-get install curl -y
-RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt-get install nodejs -y
 
 ### CLONE KEDRO-STATIC-VIZ ###
