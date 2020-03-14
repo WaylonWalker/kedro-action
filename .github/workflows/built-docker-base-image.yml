@@ -1,9 +1,9 @@
-name: Docker Push
+name: Docker Build and Publish Base Image
 
 on: push
 
 jobs:
-  docker:
+  docker-base-image:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
