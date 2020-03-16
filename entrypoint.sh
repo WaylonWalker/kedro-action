@@ -127,8 +127,8 @@ kedro_viz_full(){
     if [ $INPUT_SHOULD_VIZ ]; then
         print_step "kedro viz"
 	pip install kedro-viz
-	pip install kedro-static
-	kedro-static-viz --no-serve --directory ~/kedro-action/kedro-static-viz
+	pip install kedro-static-viz
+	kedro static-viz --no-serve --directory ~/kedro-action/kedro-static-viz
     fi
     }
 
