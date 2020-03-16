@@ -99,6 +99,13 @@ kedro_lint(){
     fi
 }
 
+kedro_lint(){
+    if [ $INPUT_SHOULD_RUN ]; then
+        print_step "kedro run"
+        kedro run
+    fi
+}
+
 kedro_test(){
     if [ $INPUT_SHOULD_TEST ]; then
     	mkdir ~/kedro-action/test-report/
@@ -190,7 +197,7 @@ fi
 ##### LINT PROJECT #####
 if $INPUT_VERBOSE
 	then
-	kedro lint && success successfully linted || fail failed to lint --exit
+	kedro_lint && success successfully linted || fail failed to lint --exit
 	else
 	kedro_lint > /dev/null 2>&1 && success successfully linted || fail failed to lint --exit
 fi
