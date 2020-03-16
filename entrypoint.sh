@@ -123,7 +123,7 @@ kedro_package(){
     fi
 }
 
-kedro_viz_full(){
+kedro_viz(){
     if [ $INPUT_SHOULD_VIZ ]; then
         print_step "kedro viz"
 	pip install kedro-viz
