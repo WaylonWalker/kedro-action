@@ -123,31 +123,14 @@ kedro_package(){
     fi
 }
 
-install_nodejs(){
-        print_step "install node"
-	print_step "node version"
-	apt-get install curl -y
-	curl -sL https://deb.nodesource.com/setup_11.x | bash -
-	apt-get install nodejs -y
-}
-
 kedro_viz_full(){
     if [ $INPUT_SHOULD_VIZ ]; then
         print_step "kedro viz"
 	pip install kedro-viz
-        kedro viz --save-file pipeline.json
-        print_step "cat pipeline"
-        cat pipeline.json
-        cp ../pipeline.json /kedro-static-viz/src/pages/pipeline.json
-	cd /kedro-static-viz
-        print_step "cat pages"
-        ls src/pages/
-	gatsby build
-	mv /kedro-static-viz/public ~/kedro-action/viz
+	pip install kedro-static
+	kedro-static-viz --no-serve --directory ~/kedro-action/kedro-static-viz
     fi
     }
-    
-    
 
 
 ##############################
