@@ -164,12 +164,12 @@ fi
  
  
 ##### INSTALL PYTHON #####
-if $INPUT_VERBOSE
-	then
-	install_python_version && success successfully installed python || fail failed to install python --exit
-	else
-	install_python_version > /dev/null 2>&1 || fail failed to install python --exit
-fi
+# if $INPUT_VERBOSE
+# 	then
+# 	install_python_version && success successfully installed python || fail failed to install python --exit
+# 	else
+# 	install_python_version > /dev/null 2>&1 || fail failed to install python --exit
+# fi
 
 ##### INSTALL KEDRO #####
 if $INPUT_VERBOSE
