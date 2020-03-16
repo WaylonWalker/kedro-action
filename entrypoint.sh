@@ -106,7 +106,7 @@ kedro_lint(){
     fi
 }
 
-kedro_lint(){
+kedro_run (){
     if [ $INPUT_SHOULD_RUN ]; then
         print_step "kedro run"
         kedro run
