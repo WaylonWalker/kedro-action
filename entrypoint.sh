@@ -257,10 +257,4 @@ if $INPUT_VERBOSE
 	push_to_branch $INPUT_DEPLOY_BRANCH ~/kedro-action > /dev/null 2>&1 && success successfully deployed to $INPUT_DEPLOY_BRANCH || fail failed to deploy to $INPUT_DEPLOY_BRANCH
 fi
 
-##### EXIT #####
-# If any non critical failures occurred exit with status 1
-# Creates Red check in github ui
-if [ $status = 0 ]
-    then
-    exit $status
-fi
+exit $status
