@@ -25,6 +25,7 @@ fail(){
 
 push_to_branch() {
 	
+	
 	target_branch=$1
 	deploy_directory=$2
         REMOTE="https://${INPUT_GITHUB_PAT}@github.com/${GITHUB_REPOSITORY}.git"
@@ -103,7 +104,6 @@ kedro_run (){
     if [ $INPUT_SHOULD_RUN ]; then
         print_step "kedro run"
         kedro run
-	mv logs ~/kedro-action/logs
     fi
 }
 
@@ -184,7 +184,7 @@ if $INPUT_VERBOSE
 	then
 	install_kedro $INPUT_DEPLOY_BRANCH $ && success successfully installed kedro || fail failed to install kedro --exit
 	else
-	install_kedro > /dev/null 2>&1 || fail failed to install kedro --exit
+	install_kedro > logs/kedro_install.log 2>&1 || fail failed to install kedro --exit
 fi
 
 ##### INSTALL PROJECT #####
@@ -192,7 +192,7 @@ if $INPUT_VERBOSE
 	then
 	install_project  && success successfully installed project || fail failed to install project --exit
 	else
-	install_project > /dev/null 2>&1 || fail failed to install project --exit
+	install_project > logs/project_install.log 2>&1 || fail failed to install project --exit
 fi
 
 ##### LINT PROJECT #####
@@ -200,7 +200,7 @@ if $INPUT_VERBOSE
 	then
 	kedro_lint && success successfully linted || fail failed to lint --exit
 	else
-	kedro_lint > /dev/null 2>&1 && success successfully linted || fail failed to lint --exit
+	kedro_lint > logs/lint.log 2>&1 && success successfully linted || fail failed to lint --exit
 fi
 
 ##### TEST PROJECT #####
@@ -208,7 +208,7 @@ if $INPUT_VERBOSE
 	then
 	kedro_test && success successfully ran tests || fail failed to run tests --exit
 	else
-	kedro_test > /dev/null 2>&1 && success successfully ran tests || fail failed to run tests --exit
+	kedro_test > logs/test.log 2>&1 && success successfully ran tests || fail failed to run tests --exit
 fi
 
 ##### RUN PROJECT #####
@@ -216,7 +216,7 @@ if $INPUT_VERBOSE
 	then
 	kedro_run && success successfully ran pipeline || fail failed to run pipeline
 	else
-	kedro_run > /dev/null 2>&1 && success successfully ran pipeline || fail failed to run pipeline
+	kedro_run > logs/run.log 2>&1 && success successfully ran pipeline || fail failed to run pipeline
 fi
 
 ##### BUILD DOCS #####
@@ -224,7 +224,7 @@ if $INPUT_VERBOSE
 	then
 	kedro_build_docs && success successfully built docs || fail failed to build docs
 	else
-	kedro_build_docs > /dev/null 2>&1 && success successfully built docs || fail failed to build docs
+	kedro_build_docs > logs/build_docs.log 2>&1 && success successfully built docs || fail failed to build docs
 fi
 
 ##### PACKAGE PROJECT #####
@@ -232,7 +232,7 @@ if $INPUT_VERBOSE
 	then
 	kedro_package && success successfully packaged || fail failed to package
 	else
-	kedro_package > /dev/null 2>&1 && success successfully packaged || fail failed to package
+	kedro_package > logs/package.log 2>&1 && success successfully packaged || fail failed to package
 fi
 
 ##### BUILD STATIC VIZ #####
@@ -240,10 +240,11 @@ if $INPUT_VERBOSE
 	then
 	kedro_viz && success successfully built visualization || fail failed to build visualization
 	else
-	kedro_viz > /dev/null 2>&1 && success successfully built visualization || fail failed to build visualization
+	kedro_viz > logs/static-viz.log 2>&1 && success successfully built visualization || fail failed to build visualization
 fi
 
 ##### DEPLOY BRANCH #####
+mv logs ~/kedro-action/logs
 if $INPUT_VERBOSE
 	then
 	push_to_branch $INPUT_DEPLOY_BRANCH ~/kedro-action && success successfully deployed to $INPUT_DEPLOY_BRANCH || fail failed to deploy to $INPUT_DEPLOY_BRANCH
