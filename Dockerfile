@@ -8,8 +8,5 @@ LABEL "com.github.actions.color"="black"
 LABEL "repository"="http://github.com/WaylonWalker/kedro-action"
 LABEL "maintainer"="Waylon Walker <waylon@waylonwalker.com>"
 
-RUN apt-get update
-RUN apt-get install -y jq
-
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
