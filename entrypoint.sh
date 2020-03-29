@@ -99,13 +99,6 @@ kedro_lint(){
     fi
 }
 
-kedro_lint(){
-    if [ $INPUT_SHOULD_RUN ]; then
-        print_step "kedro lint"
-        kedro lint
-    fi
-}
-
 kedro_run (){
     if [ $INPUT_SHOULD_RUN ]; then
         print_step "kedro run"
@@ -254,7 +247,7 @@ if $INPUT_VERBOSE
 	then
 	push_to_branch $INPUT_DEPLOY_BRANCH ~/kedro-action && success successfully deployed to $INPUT_DEPLOY_BRANCH || fail failed to deploy to $INPUT_DEPLOY_BRANCH
 	else
-	push_to_branch $INPUT_DEPLOY_BRANCH ~/kedro-action > /dev/null 2>&1 && success successfully deployed to $INPUT_DEPLOY_BRANCH || fail failed to deploy to $INPUT_DEPLOY_BRANCH
+	push_to_branch $INPUT_DEPLOY_BRANCH ~/kedro-action > /dev/null 2>&1 && success successfully deployed to branch - $INPUT_DEPLOY_BRANCH || fail failed to deploy to branch - $INPUT_DEPLOY_BRANCH
 fi
 
 exit $status
