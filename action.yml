@@ -4,7 +4,7 @@ description: Run kedro project
 inputs:
   python_version:
     description: a Python version that is supported by pyenv
-    default: '3.7.0'
+    default: '3.7.6'
   should_lint:
     description: runs `kedro lint`
     default: true
@@ -27,8 +27,13 @@ inputs:
     description: branch to deploy static site to
     default: kedro-action
   github_pat:
-    description: github personal access token for help see: https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
+    description: >
+      github personal access token
+      for help see https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
     default: null
+  verbose:
+    description: prints extra information for debugging
+    default: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -39,9 +44,12 @@ runs:
     - ${{ inputs.should_build_docs }}
     - ${{ inputs.should_package }}
     - ${{ inputs.should_run }}
-    - ${{ inputs.should_viz}}
+    - ${{ inputs.should_viz }}
+    - ${{ inputs.docs_branch }}
+    - ${{ inputs.viz_branch }}
     - ${{ inputs.deploy_branch}}
     - ${{ inputs.GITHUB_PAT}}
+    - ${{ inputs.verbose }}
 branding:
   icon: 'git-branch'
   color: 'black'
