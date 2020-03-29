@@ -1,33 +1,26 @@
-# Kedro-Action
+# ![Kedro-Action](artwork/Kedro-Action.png)
 
-A GitHub Action to `lint`, `test`, `build-docs`, `package`, and `run` your [kedro](https://github.com/quantumblacklabs/kedro) pipelines. Supports any Python version you'll give it (that is also supported by [pyenv](https://github.com/pyenv/pyenv)). 
+A GitHub Action to `lint`, `test`, `build-docs`, `package`, `static-viz`, and `run` your [kedro](https://github.com/quantumblacklabs/kedro) pipelines. Supports any Python version you'll give it (that is also supported by [pyenv](https://github.com/pyenv/pyenv)). 
 
 Inspired by [mariamrf/py-package-publish-action](https://github.com/mariamrf/py-package-publish-action) and [crazy-max/ghaction-github-pages](https://github.com/crazy-max/ghaction-github-pages).
 
 # Example
 
-check out [WaylonWalker/default-kedro157](https://github.com/WaylonWalker/default-kedro157/) for a working example of the action.
+Check out [WaylonWalker/default-kedro157](https://github.com/WaylonWalker/default-kedro157/) for a working example of the action.
 
-# Releases
+[![Static Viz](artwork/kedro-static-viz.png)](https://default-kedro-157.waylonwalker.com/)
 
-## Version 1.0.3
+[![Docs](artwork/docs.png)](https://default-kedro-157-docs.netlify.com/)
 
-Version 1 has been released.  It is very simple and just runs all of the kedro cli commands to install, test, lint, build-docs, package, and run your project.  If you want to keep any of the information you will need to create an artifact manually, or for docs push them to a gh-pages directory
-
-## Version 2 (develop branch)
-
-* suppress command output
-* run same kedro commands
-* create static pipeline visualization
-* create html testing report
-* automatically deploy web artifacts to kedro-action branch (viz, test_report, docs)
-
+[![Test report](artwork/test-report.png)](https://default-kedro-157-test.netlify.com/)
 
 # Use
 
 ## Pre-requisits
 
 In order for the Action to have access to the code, you must use the actions/checkout@master job before it. See the example below.
+
+For kedro-action to commit results back to the `kedro-action` branch you must supply a GitHub Personal Access Token through the secrets manager.  See [this link](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) for more help.
 
 ## Inputs
 
@@ -49,6 +42,19 @@ In order for the Action to have access to the code, you must use the actions/che
 * should_run:
     * description: runs `kedro run`
     * default: false
+* should_viz:
+    * description: creates a static site built on gatsby based on `kedro viz --save-pipeline pipeline.json`
+    * default: true
+* deploy_branch
+   * branch to deploy static site to
+   * default: kedro-action
+* github_pat
+   * description: github personal access token
+   * for help: https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
+   * default: null
+* verbose
+   * description: prints extra information for debugging
+   * default: false
 
 ## Example Workflow
 
@@ -62,23 +68,11 @@ on:
 
 jobs:
   kedro:
-
     runs-on: ubuntu-latest
-    
     steps:
     - uses: actions/checkout@master
     - name: Kedro
-      uses: WaylonWalker/kedro-action@1.0.3
+      uses: WaylonWalker/kedro-action@2.0.0
       with:
-        python_version: '3.7.0'
-# OPTIONAL
-# Deploy docs to gh-pages branch
-    - name: Deploy-docs
-      uses: crazy-max/ghaction-github-pages@v1.3.0
-      with:
-        target_branch: gh-pages-docs
-        build_dir: docs/build/html
-      env:
-        GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+        GITHUB_PAT: ${{ secrets.GITHUB_PAT }} # required for push to kedro-action branch
 
-```
