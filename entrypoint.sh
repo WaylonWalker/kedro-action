@@ -235,14 +235,6 @@ if $INPUT_VERBOSE
 	kedro_package > logs/package.log 2>&1 && success successfully packaged || fail failed to package
 fi
 
-##### BUILD STATIC VIZ #####
-if $INPUT_VERBOSE
-	then
-	kedro_viz && success successfully built visualization || fail failed to build visualization
-	else
-	kedro_viz > logs/static-viz.log 2>&1 && success successfully built visualization || fail failed to build visualization
-fi
-
 ##### DEPLOY BRANCH #####
 mv logs ~/kedro-action/logs
 if $INPUT_VERBOSE
