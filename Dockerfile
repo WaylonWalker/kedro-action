@@ -1,4 +1,4 @@
-FROM python:3.7
+FROM python:3.13.0a3
 
 LABEL "com.github.actions.name"="kedro-action"
 LABEL "com.github.actions.description"="A Github Action to run kedro commands"
